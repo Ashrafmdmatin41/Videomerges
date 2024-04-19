@@ -10,13 +10,13 @@ class Config(object):
     SESSION_NAME = os.environ.get("SESSION_NAME", "merge-bot")
     UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL")
     PASSWORD = os.environ.get("PASSWORD")
-    DATABASE_URL = os.environ.get("mongodb+srv://devilking:devilking@cluster0.evvxofd.mongodb.net/?retryWrites=true&w=majority")
+    DATABASE_URL = os.environ.get("DATABASE_URL")
     LOGCHANNEL = os.environ.get("LOGCHANNEL")  # Add channel id as -100 + Actual ID
     GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID","root")
     USER_SESSION_STRING = os.environ.get("USER_SESSION_STRING", None)
     IS_PREMIUM = True
     MODES = ["video-video", "video-audio", "video-subtitle","extract-streams"]
-    UPSTREAM_REPO = "https://github.com/Darkksoul/Videomerge"
+    UPSTREAM_REPO = "https://github.com/ZEUSxCODES/Videomerge"
     UPSTREAM_BRANCH = "main"
 
     START_TEXT = """
