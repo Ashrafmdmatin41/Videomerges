@@ -4,6 +4,7 @@ load_dotenv(
     "config.env",
     override=True,
 )
+import random
 import asyncio
 import os
 import shutil
@@ -196,12 +197,21 @@ async def broadcast_handler(c: Client, m: Message):
     )
 
 
+# Define the REACTIONS list
+REACTIONS = ["😀", "😃", "😄", "😁", "😆", "😅"]
+
 @mergeApp.on_message(filters.command(["start"]) & filters.private)
 async def start_handler(c: Client, m: Message):
-   Fsub = await ForceSub(c, m)
-   if Fsub == 400:
+    # Force subscription check
+    Fsub = await ForceSub(c, m)
+    if Fsub == 400:
         return
-   await m.reply_text(
+    
+    # Add an emoji reaction to the incoming start message
+    await m.react(emoji=random.choice(REACTIONS))
+    
+    # Send the reply text message with an inline keyboard markup
+    await m.reply_text(
         text=f"Hɪ **⚡ I ᴀᴍ ᴀ ғɪʟᴇ/ᴠɪᴅᴇᴏ ᴍᴇʀɢᴇʀ ʙᴏᴛ\n\n😎 I ᴄᴀɴ ᴍᴇʀɢᴇ ᴛᴇʟᴇɢʀᴀᴍ ғɪʟᴇs!, ᴀɴᴅ ᴜᴘʟᴏᴀᴅ ɪᴛ ᴛᴏ ᴛᴇʟᴇɢʀᴀᴍ Bot Owner @Film_Nest\n\n/help ғᴏʀ ʜᴏᴡ ᴛᴏ ᴜsᴇ\n\n**Oᴡɴᴇʀ: 🈲 @{Config.OWNER_USERNAME}**",
         quote=True,
         reply_markup=InlineKeyboardMarkup(
