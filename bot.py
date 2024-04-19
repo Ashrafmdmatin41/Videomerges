@@ -198,7 +198,7 @@ async def broadcast_handler(c: Client, m: Message):
 
 
 # Define the REACTIONS list
-REACTIONS = ["😀", "😃", "😄", "😁", "😆", "😅"]
+REACTIONS = ["🔥", "❤️", "😍", "⚡"]
 
 @mergeApp.on_message(filters.command(["start"]) & filters.private)
 async def start_handler(c: Client, m: Message):
