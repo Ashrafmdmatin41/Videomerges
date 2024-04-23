@@ -40,7 +40,7 @@ class Progress:
             self._cancelled = True
         return self._cancelled
 
-        async def progress_for_pyrogram(self, current, total, ud_type, start, count=""):
+    async def progress_for_pyrogram(self, current, total, ud_type, start, count=""):
         chat_id = self._mess.chat.id
         mes_id = self._mess.id
         from_user = self._from_user
@@ -65,12 +65,12 @@ class Progress:
             )
             await self._client.stop_transmission()
 
-        try:
-            percentage = current * 100 / total
-        except ZeroDivisionError:
-            percentage = 0
-
         if round(diff % float(EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
+            # if round(current / total * 100, 0) % 5 == 0:
+            if total != 0:  # Check if total is not zero
+                percentage = current * 100 / total
+            else:
+                percentage = 0
             speed = current / diff
             elapsed_time = round(diff) * 1000
             time_to_completion = round((total - current) / speed) * 1000
@@ -91,12 +91,14 @@ class Progress:
                 ),
                 round(percentage, 2),
             )
+            # cpu = "{psutil.cpu_percent()}%"
             tmp = (
                 progress
                 + "\n**⌧ Total 🗃:**` 〚{1}〛`\n**⌧ Done ✅ :**` 〚{0}〛`\n**⌧ Speed 📊 :** ` 〚{2}/s〛`\n**⌧ ETA 🔃 :**` 〚{3}〛`\n {4}".format(
                     humanbytes(current),
                     humanbytes(total),
                     humanbytes(speed),
+                    # elapsed_time if elapsed_time != '' else "0 s",
                     estimated_total_time if estimated_total_time != "" else "0 s",
                     count
                 )
@@ -115,3 +117,33 @@ class Progress:
                 time.sleep(fd.x)
             except Exception as ou:
                 logger.info(ou)
+
+
+def humanbytes(size):
+    # https://stackoverflow.com/a/49361727/4723940
+    # 2**10 = 1024
+    if not size:
+        return ""
+    power = 2**10
+    n = 0
+    Dic_powerN = {0: "", 1: "K", 2: "M", 3: "G", 4: "T"}
+    while size > power:
+        size /= power
+        n += 1
+    return f"{str(round(size, 2))} {Dic_powerN[n]}B"
+
+
+def TimeFormatter(milliseconds: int) -> str:
+    seconds, milliseconds = divmod(int(milliseconds), 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = (
+        ((str(days) + "d, ") if days else "")
+        + ((str(hours) + "h, ") if hours else "")
+        + ((str(minutes) + "m, ") if minutes else "")
+        + ((str(seconds) + "s, ") if seconds else "")
+        + ((str(milliseconds) + "ms, ") if milliseconds else "")
+    )
+    return tmp[:-2]
+
