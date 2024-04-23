@@ -67,7 +67,10 @@ class Progress:
 
         if round(diff % float(EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
             # if round(current / total * 100, 0) % 5 == 0:
-            percentage = current * 100 / total
+            if total != 0:  # Check if total is not zero
+                percentage = current * 100 / total
+            else:
+                percentage = 0
             speed = current / diff
             elapsed_time = round(diff) * 1000
             time_to_completion = round((total - current) / speed) * 1000
@@ -143,3 +146,4 @@ def TimeFormatter(milliseconds: int) -> str:
         + ((str(milliseconds) + "ms, ") if milliseconds else "")
     )
     return tmp[:-2]
+
